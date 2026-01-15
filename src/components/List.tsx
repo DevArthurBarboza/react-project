@@ -1,17 +1,12 @@
 import { useState } from "react";
-import type { ListItem } from './types/ListItem';
+import Item from '../types/Item';
 
-/**
- * 
- * items : [
- *    'id',
- *    'name',
- *    'price',
- *    'isAvailable'
- * ]
- */
+type Props = {
+  items: Item[],
+  hideNotAvailable : boolean
+}
 
-export default function List({items, hideNotAvailable}){
+export default function List({items, hideNotAvailable} : Props){
 
     const [itemList, setItems] = useState(items);
     const [elements, setElements] = useState(['Item 1', 'Item 2', 'Item 3']);
@@ -27,16 +22,16 @@ export default function List({items, hideNotAvailable}){
       setNewItem(value)
     }
 
-    function handleRemoveItem(value : string) {
-      let newElementList = [...elements]
+    function handleRemoveItem(value : number) {
+      let newElementList = [...itemList]
       newElementList = newElementList.filter(element => element != value);
       setElements(newElementList)
     }
 
     function renderItems()
     {
-      let items = itemList.filter((item) => item.isAvailable && hideNotAvailable);
-      return items.map((item) => (
+      let items = itemList.filter((item : Item) => item.isAvailable && hideNotAvailable);
+      return items.map((item : Item) => (
           <li> 
               <span> {item.name} </span>
               <button type="button" onClick={() => handleRemoveItem(item.id)}>X</button> 
